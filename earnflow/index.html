@@ -1,0 +1,2932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EarnFlow · Real Trading · Rewards</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== GLOBAL RESET & LAYOUT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: #f4f7fc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .app {
+            max-width: 1400px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 700px;
+        }
+        .hidden { display: none !important; }
+
+        /* ===== AUTH PAGES ===== */
+        .auth-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 30px;
+            background: white;
+            min-height: 600px;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 40px 32px;
+            border-radius: 32px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f6;
+        }
+        .auth-card h2 {
+            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #0b1a33;
+        }
+        .auth-card .sub {
+            color: #5e6f8d;
+            margin-bottom: 28px;
+            font-size: 15px;
+        }
+        .auth-card label {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            color: #1e2b44;
+            margin-bottom: 6px;
+        }
+        .auth-card input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d9e0eb;
+            border-radius: 18px;
+            font-size: 15px;
+            margin-bottom: 18px;
+            transition: 0.2s;
+            background: #fafcff;
+        }
+        .auth-card input:focus {
+            outline: none;
+            border-color: #2a6df4;
+            box-shadow: 0 0 0 4px rgba(42, 109, 244, 0.12);
+        }
+        .auth-btn {
+            width: 100%;
+            background: #1a3a7a;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .auth-btn:hover {
+            background: #0d2b5e;
+            transform: scale(0.98);
+        }
+        .auth-btn-secondary {
+            width: 100%;
+            background: transparent;
+            color: #1a3a7a;
+            border: 1px solid #1a3a7a;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .auth-btn-secondary:hover {
+            background: #eef4ff;
+        }
+        .auth-switch {
+            text-align: center;
+            margin-top: 22px;
+            color: #3e5580;
+        }
+        .auth-switch a {
+            color: #1a3a7a;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        .auth-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            display: none;
+            border: 1px solid #f5c6cb;
+        }
+        .auth-error a {
+            color: #721c24;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .auth-error a:hover {
+            color: #491217;
+        }
+        .auth-error .error-btn {
+            display: inline-block;
+            background: #1a3a7a;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .auth-error .error-btn:hover {
+            background: #0d2b5e;
+        }
+        .demo-note {
+            background: #e8f0fe;
+            color: #1a3a7a;
+            padding: 10px 16px;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            border: 1px solid #c5d8f0;
+            text-align: center;
+        }
+        .demo-note strong {
+            font-weight: 700;
+        }
+        .forgot-link {
+            text-align: right;
+            margin-top: -12px;
+            margin-bottom: 18px;
+        }
+        .forgot-link a {
+            color: #68749c;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .forgot-link a:hover {
+            color: #1a3a7a;
+            text-decoration: underline;
+        }
+
+        /* ===== DASHBOARD ===== */
+        .dashboard {
+            display: none;
+            flex-direction: column;
+            min-height: 700px;
+        }
+        .topnav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #edf2f9;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0b1a33;
+        }
+        .logo i {
+            color: #2a6df4;
+            margin-right: 10px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-links button {
+            background: transparent;
+            border: none;
+            padding: 10px 18px;
+            font-weight: 500;
+            color: #2a3f62;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+        .nav-links button i {
+            margin-right: 8px;
+        }
+        .nav-links button.active {
+            background: #eef4ff;
+            color: #1a3a7a;
+            font-weight: 600;
+        }
+        .nav-links button:hover {
+            background: #e6edf8;
+        }
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-badge span {
+            font-weight: 500;
+            color: #1b2f4e;
+        }
+        .logout-btn {
+            background: #f0f4fe;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: #1a3a7a;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .logout-btn:hover {
+            background: #dce6f8;
+        }
+
+        .content {
+            padding: 30px;
+            flex: 1;
+            background: #f8faff;
+        }
+        .page {
+            display: none;
+            animation: fade 0.25s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fade {
+            0% {
+                opacity: 0.5;
+                transform: translateY(6px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .page h2 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #0b1a33;
+            margin-bottom: 6px;
+        }
+        .page p {
+            color: #4c6382;
+            margin-bottom: 24px;
+        }
+
+        /* ===== WALLET CARDS ===== */
+        .wallet-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin: 20px 0 30px;
+        }
+        .wallet-card {
+            background: white;
+            padding: 24px 28px;
+            border-radius: 28px;
+            flex: 1 1 180px;
+            border: 1px solid #e9eef6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            min-width: 140px;
+        }
+        .wallet-card h4 {
+            font-weight: 500;
+            color: #52668a;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+        }
+        .wallet-card .amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0b1a33;
+            margin: 8px 0 4px;
+        }
+        .wallet-card .sub {
+            font-size: 13px;
+            color: #567;
+        }
+        .wallet-card .amount.positive { color: #1c9e6c; }
+        .wallet-card .amount.negative { color: #c74a4a; }
+        .wallet-card .amount.demo-disabled { color: #68749c; opacity: 0.5; }
+
+        .wallet-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 20px 0 30px;
+        }
+        .wallet-actions button {
+            background: white;
+            border: 1px solid #d3deed;
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: #1a3a7a;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+        .wallet-actions button i {
+            font-size: 18px;
+        }
+        .wallet-actions button.primary {
+            background: #1a3a7a;
+            color: white;
+            border: none;
+        }
+        .wallet-actions button.primary:hover {
+            background: #0f2b5a;
+        }
+        .wallet-actions button:hover {
+            background: #eaf0fa;
+        }
+        .wallet-actions button:disabled,
+        .wallet-actions button.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #eef2f6;
+            color: #68749c;
+            border-color: #d9e0eb;
+        }
+        .wallet-actions button:disabled:hover,
+        .wallet-actions button.disabled:hover {
+            background: #eef2f6;
+            transform: none;
+        }
+
+        .history-list {
+            background: white;
+            border-radius: 28px;
+            padding: 8px 0;
+            border: 1px solid #e9eef6;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 28px;
+            border-bottom: 1px solid #f0f4fc;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .history-item:last-child {
+            border: none;
+        }
+        .history-item .tag {
+            font-weight: 500;
+            color: #1b2f4e;
+        }
+        .history-item .date {
+            color: #68749c;
+            font-size: 14px;
+        }
+        .history-item .value {
+            font-weight: 600;
+        }
+        .value.green {
+            color: #1c9e6c;
+        }
+        .value.red {
+            color: #c74a4a;
+        }
+        .value.blue {
+            color: #2a6df4;
+        }
+
+        /* ===== PROFILE / SETTINGS / ADMIN / SURVEYS ===== */
+        .profile-card,
+        .settings-card,
+        .admin-card,
+        .surveys-card,
+        .deposit-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px 36px;
+            border: 1px solid #e9eef6;
+            max-width: 800px;
+        }
+        .profile-card .row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .profile-card .row i {
+            width: 40px;
+            color: #1a3a7a;
+            font-size: 20px;
+        }
+        .profile-card .row .label {
+            font-weight: 500;
+            color: #1b2f4e;
+            min-width: 80px;
+        }
+        .profile-card .row .value {
+            color: #1b2f4e;
+            word-break: break-all;
+        }
+        .profile-card .row .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .profile-card .row .badge-verified {
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .profile-card .row .badge-demo {
+            background: #e8f0fe;
+            color: #1a3a7a;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .settings-card .setting-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid #edf2f9;
+            align-items: center;
+        }
+        .settings-card .setting-item:last-child {
+            border: none;
+        }
+        .toggle {
+            background: #d9e0eb;
+            width: 48px;
+            height: 28px;
+            border-radius: 40px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .toggle.active {
+            background: #1a3a7a;
+        }
+        .toggle::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: 0.2s;
+        }
+        .toggle.active::after {
+            left: 23px;
+        }
+
+        .admin-card .admin-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #edf2f9;
+            align-items: center;
+        }
+        .admin-card .admin-item:last-child {
+            border: none;
+        }
+        .admin-badge {
+            background: #eef4ff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: #1a3a7a;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* ===== DEPOSIT PAGE ===== */
+        .deposit-card .iban-box {
+            background: #eef4ff;
+            border-radius: 18px;
+            padding: 20px 24px;
+            border: 1px solid #cddef5;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .deposit-card .iban-box .label {
+            font-weight: 600;
+            color: #0b1a33;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .deposit-card .iban-box .address {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #1a3a7a;
+            border: 1px solid #b8cef0;
+            letter-spacing: 0.5px;
+            flex: 1;
+            min-width: 180px;
+        }
+        .deposit-card .iban-box .copy-btn {
+            background: #1a3a7a;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .deposit-card .iban-box .copy-btn:hover {
+            background: #0f2b5a;
+        }
+        .deposit-card .form-group {
+            margin-bottom: 18px;
+        }
+        .deposit-card label {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            color: #1e2b44;
+            margin-bottom: 6px;
+        }
+        .deposit-card input,
+        .deposit-card select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d9e0eb;
+            border-radius: 18px;
+            font-size: 15px;
+            background: #fafcff;
+            transition: 0.2s;
+        }
+        .deposit-card input:focus,
+        .deposit-card select:focus {
+            outline: none;
+            border-color: #2a6df4;
+            box-shadow: 0 0 0 4px rgba(42, 109, 244, 0.12);
+        }
+        .deposit-card .currency-toggle {
+            display: flex;
+            gap: 8px;
+            background: #eef2f6;
+            border-radius: 40px;
+            padding: 4px;
+            margin-bottom: 6px;
+        }
+        .deposit-card .currency-toggle button {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1b2f4e;
+        }
+        .deposit-card .currency-toggle button.active {
+            background: white;
+            color: #1a3a7a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        .deposit-card .submit-btn {
+            width: 100%;
+            background: #1a3a7a;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .deposit-card .submit-btn:hover {
+            background: #0d2b5e;
+        }
+
+        /* ===== PENDING DEPOSITS TABLE (Read-only) ===== */
+        .deposit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        .deposit-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: #f0f4fc;
+            color: #1b2f4e;
+            font-weight: 600;
+            border-radius: 12px 12px 0 0;
+        }
+        .deposit-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #edf2f9;
+        }
+        .deposit-table tr:last-child td {
+            border-bottom: none;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-badge.confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .survey-item {
+            background: #f8faff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e9eef6;
+        }
+        .survey-item .title {
+            font-weight: 500;
+            color: #0b1a33;
+        }
+        .survey-item .reward {
+            color: #1c9e6c;
+            font-weight: 600;
+        }
+        .survey-item .btn-survey {
+            background: #1a3a7a;
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .survey-item .btn-survey:hover {
+            background: #0f2b5a;
+        }
+
+        /* ===== TRADING ===== */
+        .trading-container {
+            background: white;
+            border-radius: 28px;
+            padding: 24px;
+            border: 1px solid #e9eef6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            margin-top: 10px;
+        }
+        #tradingview_chart {
+            height: 500px;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fafcff;
+        }
+
+        .trading-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        @media (max-width: 900px) {
+            .trading-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .trading-order {
+            background: #f8faff;
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #e9eef6;
+        }
+        .trading-order .price-display {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0b1a33;
+            margin-bottom: 4px;
+        }
+        .trading-order .price-change {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .trading-order .price-change.up {
+            color: #1c9e6c;
+        }
+        .trading-order .price-change.down {
+            color: #c74a4a;
+        }
+        .trading-order .balance-display {
+            color: #52668a;
+            font-size: 15px;
+            margin: 12px 0 16px;
+        }
+        .trading-order .balance-display strong {
+            color: #0b1a33;
+        }
+
+        .trade-type-toggle {
+            display: flex;
+            gap: 8px;
+            background: #eef2f6;
+            border-radius: 40px;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+        .trade-type-toggle button {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1b2f4e;
+        }
+        .trade-type-toggle button.active-buy {
+            background: #1c9e6c;
+            color: white;
+        }
+        .trade-type-toggle button.active-sell {
+            background: #c74a4a;
+            color: white;
+        }
+
+        .order-form label {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            color: #1e2b44;
+            margin-bottom: 4px;
+        }
+        .order-form input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d9e0eb;
+            border-radius: 18px;
+            font-size: 15px;
+            margin-bottom: 12px;
+            background: white;
+            transition: 0.2s;
+        }
+        .order-form input:focus {
+            outline: none;
+            border-color: #2a6df4;
+            box-shadow: 0 0 0 4px rgba(42, 109, 244, 0.12);
+        }
+        .order-form .total-cost {
+            font-size: 14px;
+            color: #52668a;
+            margin-bottom: 16px;
+        }
+        .order-form .total-cost strong {
+            color: #0b1a33;
+        }
+
+        .btn-trade {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+        .btn-trade.buy {
+            background: #1c9e6c;
+        }
+        .btn-trade.buy:hover {
+            background: #158a5a;
+        }
+        .btn-trade.sell {
+            background: #c74a4a;
+        }
+        .btn-trade.sell:hover {
+            background: #b03a3a;
+        }
+        .btn-trade:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .trade-history {
+            background: #f8faff;
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #e9eef6;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+        .trade-history h4 {
+            color: #0b1a33;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        .trade-history .trade-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-bottom: 1px solid #e9eef6;
+            font-size: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .trade-history .trade-item:last-child {
+            border-bottom: none;
+        }
+        .trade-history .trade-item .side-buy {
+            color: #1c9e6c;
+            font-weight: 600;
+        }
+        .trade-history .trade-item .side-sell {
+            color: #c74a4a;
+            font-weight: 600;
+        }
+        .trade-history .trade-item .price {
+            font-weight: 500;
+            color: #0b1a33;
+        }
+        .trade-history .trade-item .time {
+            color: #68749c;
+            font-size: 12px;
+        }
+        .trade-history .trade-item .trade-value {
+            font-weight: 600;
+        }
+        .trade-history .trade-item .trade-value.positive {
+            color: #1c9e6c;
+        }
+        .trade-history .trade-item .trade-value.negative {
+            color: #c74a4a;
+        }
+        .trade-history .no-trades {
+            color: #68749c;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        /* P&L Summary */
+        .pnl-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 16px 0 20px;
+            background: #f0f7ff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid #e0e8f0;
+        }
+        .pnl-item {
+            text-align: center;
+        }
+        .pnl-item .pnl-label {
+            font-size: 13px;
+            color: #52668a;
+        }
+        .pnl-item .pnl-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        .pnl-item .pnl-value.positive {
+            color: #1c9e6c;
+        }
+        .pnl-item .pnl-value.negative {
+            color: #c74a4a;
+        }
+        .pnl-item .pnl-value.neutral {
+            color: #52668a;
+        }
+
+        /* Scrollbar styling */
+        .trade-history::-webkit-scrollbar {
+            width: 6px;
+        }
+        .trade-history::-webkit-scrollbar-track {
+            background: #f0f4fc;
+            border-radius: 10px;
+        }
+        .trade-history::-webkit-scrollbar-thumb {
+            background: #d0d8e8;
+            border-radius: 10px;
+        }
+
+        /* ===== MODALS ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: white;
+            max-width: 480px;
+            width: 90%;
+            padding: 32px 30px;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+        .modal-box h3 {
+            margin-bottom: 12px;
+        }
+        .modal-box label {
+            display: block;
+            font-weight: 500;
+            margin: 14px 0 4px;
+        }
+        .modal-box input,
+        .modal-box select,
+        .modal-box textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d9e0eb;
+            border-radius: 18px;
+            font-size: 15px;
+            margin-bottom: 6px;
+            background: white;
+        }
+        .modal-box textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        .modal-actions button {
+            padding: 12px 28px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal-actions .btn-primary {
+            background: #1a3a7a;
+            color: white;
+        }
+        .modal-actions .btn-secondary {
+            background: #eef2f6;
+            color: #1b2f4e;
+        }
+        .modal-actions .btn-success {
+            background: #1c9e6c;
+            color: white;
+        }
+
+        .bonus-icon {
+            font-size: 60px;
+            color: #f1c40f;
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .bonus-amount {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a3a7a;
+            text-align: center;
+        }
+        .bonus-text {
+            text-align: center;
+            color: #4c6382;
+            margin: 16px 0;
+        }
+
+        /* Verification info box */
+        .verification-info {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            color: #856404;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 15px;
+        }
+        .verification-info i {
+            font-size: 24px;
+            color: #856404;
+        }
+
+        .success-popup-icon {
+            font-size: 60px;
+            color: #1c9e6c;
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* IBAN Popup (Add Money) */
+        .iban-popup .iban-box {
+            background: #eef4ff;
+            border-radius: 18px;
+            padding: 20px 24px;
+            border: 1px solid #cddef5;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        .iban-popup .iban-box .address {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #1a3a7a;
+            border: 1px solid #b8cef0;
+            letter-spacing: 0.5px;
+            flex: 1;
+            min-width: 180px;
+        }
+        .iban-popup .copy-btn {
+            background: #1a3a7a;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .iban-popup .copy-btn:hover {
+            background: #0f2b5a;
+        }
+
+        @media (max-width: 700px) {
+            .topnav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+            .user-badge {
+                justify-content: center;
+            }
+            .profile-card,
+            .settings-card,
+            .admin-card,
+            .surveys-card,
+            .deposit-card {
+                padding: 20px;
+            }
+            #tradingview_chart {
+                height: 350px;
+            }
+            .pnl-summary {
+                grid-template-columns: 1fr 1fr;
+            }
+            .wallet-grid {
+                gap: 12px;
+            }
+            .wallet-card {
+                padding: 16px 18px;
+                flex: 1 1 140px;
+            }
+            .wallet-card .amount {
+                font-size: 22px;
+            }
+            .deposit-table {
+                font-size: 12px;
+            }
+            .deposit-table th,
+            .deposit-table td {
+                padding: 8px 10px;
+            }
+            .deposit-card .iban-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app" id="app">
+
+        <!-- ========== LOGIN ========== -->
+        <div id="loginPage" class="auth-page">
+            <div class="auth-card">
+                <h2><i class="fas fa-wallet" style="color:#1a3a7a; margin-right: 8px;"></i><span id="loginSiteTitle">EarnFlow</span></h2>
+                <p class="sub">Sign in to your account</p>
+                <div id="loginError" class="auth-error"></div>
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="user@example.com" value="demo@earn.com">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" value="123456">
+                <div class="forgot-link"><a href="#" id="forgotPasswordLink">Forgot password?</a></div>
+                <button class="auth-btn" id="loginBtn"><i class="fas fa-arrow-right-to-bracket"></i> &nbsp; Log in</button>
+                <div class="auth-switch">Don't have an account? <a id="goToSignup">Sign up</a></div>
+            </div>
+        </div>
+
+        <!-- ========== SIGNUP ========== -->
+        <div id="signupPage" class="auth-page hidden">
+            <div class="auth-card">
+                <h2><i class="fas fa-user-plus" style="color:#1a3a7a; margin-right: 8px;"></i><span id="signupSiteTitle">EarnFlow</span></h2>
+                <p class="sub">Create your free account</p>
+                <div id="signupError" class="auth-error"></div>
+                <div class="demo-note">
+                    <i class="fas fa-info-circle"></i> <strong>Demo account:</strong> demo@earn.com / 123456 — use this to test the platform. <br> 
+                    <span style="font-size:12px; color:#52668a;">If you want to create a new account, use a different email address.</span>
+                </div>
+                <label>Full name</label>
+                <input type="text" id="signupName" placeholder="John Doe">
+                <label>Email (must be @gmail.com)</label>
+                <input type="email" id="signupEmail" placeholder="user@gmail.com">
+                <label>Password (min 8 chars, 1 uppercase, 1 lowercase, 1 symbol)</label>
+                <input type="password" id="signupPassword" placeholder="Create password">
+                <label>Phone (format: +92 000 0000000)</label>
+                <input type="text" id="signupPhone" placeholder="+92 000 0000000">
+                <div class="verification-info">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Verification pending:</strong> Your email and phone will be verified within <strong>48-72 hours</strong>. You can still use your account normally.</span>
+                </div>
+                <button class="auth-btn" id="signupBtn"><i class="fas fa-user-check"></i> &nbsp; Create account</button>
+                <div class="auth-switch">Already a member? <a id="goToLogin">Log in</a></div>
+            </div>
+        </div>
+
+        <!-- ========== DASHBOARD ========== -->
+        <div id="dashboard" class="dashboard">
+
+            <div class="topnav">
+                <div class="logo"><i class="fas fa-bolt"></i> <span id="navSiteTitle">EarnFlow</span></div>
+                <div class="nav-links">
+                    <button class="active" data-page="home"><i class="fas fa-house"></i> Home</button>
+                    <button data-page="wallet"><i class="fas fa-wallet"></i> Wallet</button>
+                    <button data-page="deposit"><i class="fas fa-credit-card"></i> Deposit</button>
+                    <button data-page="surveys"><i class="fas fa-clipboard-list"></i> Surveys</button>
+                    <button data-page="trading"><i class="fas fa-chart-line"></i> Trading</button>
+                    <button data-page="profile"><i class="fas fa-user"></i> Profile</button>
+                    <button data-page="settings"><i class="fas fa-sliders"></i> Settings</button>
+                    <button data-page="admin"><i class="fas fa-users-gear"></i> Admin</button>
+                </div>
+                <div class="user-badge">
+                    <span id="displayName">Demo User</span>
+                    <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+
+            <div class="content">
+
+                <!-- ===== HOME ===== -->
+                <div id="page-home" class="page active">
+                    <h2 id="homeWelcomeHeading">👋 Welcome back, <span id="greetingName">User</span></h2>
+                    <p id="homeSubText">Your earnings overview and quick actions.</p>
+                    <div class="wallet-grid">
+                        <div class="wallet-card"><h4>💰 Balance</h4><div class="amount" id="balanceDisplay">$0.00</div><div class="sub">Available</div></div>
+                        <div class="wallet-card"><h4>📊 Today's P&L</h4><div class="amount" id="todayProfitDisplay">$0.00</div><div class="sub">Net Profit/Loss</div></div>
+                        <div class="wallet-card"><h4>⭐ Rewards</h4><div class="amount" id="pointsDisplay">0</div><div class="sub">Trade Points</div></div>
+                        <div class="wallet-card"><h4>📈 Total P&L</h4><div class="amount" id="totalPnlDisplay">$0.00</div><div class="sub">All-time</div></div>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="primary" id="quickAddMoney"><i class="fas fa-plus-circle"></i> Add Money</button>
+                        <button id="quickWithdraw" class="withdraw-btn"><i class="fas fa-arrow-up-right-from-square"></i> Withdraw</button>
+                    </div>
+                    <div class="history-list" id="transactionList">
+                        <div class="history-item"><span class="tag">💡 No transactions yet</span><span class="date">—</span><span class="value">—</span></div>
+                    </div>
+                </div>
+
+                <!-- ===== WALLET ===== -->
+                <div id="page-wallet" class="page">
+                    <h2><i class="fas fa-wallet"></i> Wallet</h2>
+                    <p>Add funds or withdraw your earnings</p>
+                    <div class="wallet-grid">
+                        <div class="wallet-card"><h4>💰 Balance</h4><div class="amount" id="walletBalance">$0.00</div></div>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="primary" id="walletAddMoney"><i class="fas fa-plus"></i> Add Money</button>
+                        <button id="walletWithdraw" class="withdraw-btn"><i class="fas fa-arrow-up"></i> Withdraw</button>
+                    </div>
+                    <div style="margin: 15px 0 6px; font-weight: 500; color: #1b2f4e;">Recent transactions</div>
+                    <div class="history-list" id="walletTransactionList">
+                        <div class="history-item"><span class="tag">💡 No transactions</span><span class="date">—</span><span class="value">—</span></div>
+                    </div>
+                </div>
+
+                <!-- ===== DEPOSIT ===== -->
+                <div id="page-deposit" class="page">
+                    <h2><i class="fas fa-credit-card"></i> Deposit Funds</h2>
+                    <p>Send funds to the IBAN below, then submit your transaction details for confirmation.</p>
+                    <div class="deposit-card">
+                        <div class="iban-box">
+                            <span class="label"><i class="fas fa-building-columns" style="color:#1a3a7a;"></i> Bank Deposit (IBAN)</span>
+                            <span class="address" id="depositIbanDisplay">PK53NAYA1234503452089843</span>
+                            <button class="copy-btn" id="copyIbanBtn"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <p style="font-size:14px; color:#52668a; margin-bottom:20px;">
+                            <i class="fas fa-info-circle"></i> Minimum deposit: <strong>$5 / 1550 PKR</strong>. 
+                            Funds will be credited after manual confirmation (24-36 hours).
+                        </p>
+
+                        <hr style="border: none; border-top: 1px solid #edf2f9; margin: 20px 0;">
+
+                        <h3 style="font-size:18px; margin-bottom:16px; color:#0b1a33;">Confirm Your Deposit</h3>
+                        <p style="color:#4c6382; margin-bottom:16px;">After sending funds, fill in the details below to notify the admin.</p>
+
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <div class="currency-toggle" id="depositCurrencyToggle">
+                                <button class="active" data-currency="USD">USD</button>
+                                <button data-currency="PKR">PKR</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="number" id="depositConfirmAmount" placeholder="Enter amount" min="1" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Transaction ID / Reference</label>
+                            <input type="text" id="depositConfirmTxId" placeholder="e.g. TRANS-12345">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Phone (for confirmation)</label>
+                            <input type="text" id="depositConfirmPhone" placeholder="+92 000 0000000">
+                        </div>
+                        <button class="submit-btn" id="depositConfirmSubmit">Submit for Confirmation</button>
+                    </div>
+                </div>
+
+                <!-- ===== SURVEYS ===== -->
+                <div id="page-surveys" class="page">
+                    <h2><i class="fas fa-clipboard-list"></i> Surveys</h2>
+                    <p>Complete surveys and earn rewards</p>
+                    <div class="surveys-card" id="surveysContainer">
+                        <!-- surveys injected by JS -->
+                    </div>
+                </div>
+
+                <!-- ===== TRADING ===== -->
+                <div id="page-trading" class="page">
+                    <h2><i class="fas fa-chart-line"></i> Live Trading</h2>
+                    <p>Enter the <strong>USD amount</strong> you want to trade. Each trade earns you <strong>1 reward point</strong>!</p>
+                    <div class="trading-container">
+                        <div id="tradingview_chart"></div>
+
+                        <!-- P&L Summary -->
+                        <div class="pnl-summary" id="pnlSummary">
+                            <div class="pnl-item">
+                                <div class="pnl-label">Total P&L</div>
+                                <div class="pnl-value neutral" id="tradingTotalPnl">$0.00</div>
+                            </div>
+                            <div class="pnl-item">
+                                <div class="pnl-label">Today's P&L</div>
+                                <div class="pnl-value neutral" id="tradingTodayPnl">$0.00</div>
+                            </div>
+                            <div class="pnl-item">
+                                <div class="pnl-label">Loss Recovered</div>
+                                <div class="pnl-value neutral" id="tradingLossRecovered">$0.00</div>
+                            </div>
+                            <div class="pnl-item">
+                                <div class="pnl-label">Avg Buy Price</div>
+                                <div class="pnl-value neutral" id="tradingAvgBuyPrice">$0.00</div>
+                            </div>
+                        </div>
+
+                        <!-- Trading Panel -->
+                        <div class="trading-panel">
+                            <!-- Order Form -->
+                            <div class="trading-order">
+                                <div class="price-display" id="tradePrice">$87,234.56</div>
+                                <div class="price-change up" id="tradePriceChange">▲ +2.34%</div>
+                                <div class="balance-display">
+                                    Balance: <strong id="tradeBalance">$2,450.00</strong> &nbsp;|&nbsp; BTC: <strong id="tradeBtcBalance">0.0000</strong>
+                                </div>
+
+                                <div class="trade-type-toggle" id="tradeTypeToggle">
+                                    <button class="active-buy" data-side="buy">BUY</button>
+                                    <button data-side="sell">SELL</button>
+                                </div>
+
+                                <div class="order-form">
+                                    <label>Amount (USD)</label>
+                                    <input type="number" id="tradeAmount" placeholder="50" min="1" step="1" value="50">
+                                    <div class="total-cost">
+                                        <span id="tradeBtcEquivalent">≈ 0.000573 BTC</span>
+                                    </div>
+                                    <button class="btn-trade buy" id="tradeExecuteBtn">Buy BTC</button>
+                                </div>
+                            </div>
+
+                            <!-- Trade History -->
+                            <div class="trade-history">
+                                <h4><i class="fas fa-clock-rotate-left"></i> Recent Trades</h4>
+                                <div id="tradeHistoryList">
+                                    <div class="no-trades">No trades yet. Start trading!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== PROFILE ===== -->
+                <div id="page-profile" class="page">
+                    <h2><i class="fas fa-user-circle"></i> Profile</h2>
+                    <p>Your personal information</p>
+                    <div class="profile-card">
+                        <div class="row"><i class="fas fa-user"></i> <span class="label">Name</span> <span class="value" id="profileName">Demo User</span></div>
+                        <div class="row"><i class="fas fa-envelope"></i> <span class="label">Email</span> <span class="value" id="profileEmail">demo@earn.com</span></div>
+                        <div class="row"><i class="fas fa-calendar"></i> <span class="label">Member since</span> <span class="value" id="memberSince">2026</span></div>
+                        <div class="row">
+                            <i class="fas fa-badge-check"></i>
+                            <span class="label">Verification Status</span>
+                            <span id="phoneStatus" class="badge-verified">Verified</span>
+                        </div>
+                        <div class="row"><i class="fas fa-phone"></i> <span class="label">Phone</span> <span class="value" id="profilePhone">+92 300 1234567</span></div>
+                        <div class="row"><i class="fas fa-star"></i> <span class="label">Trade Points</span> <span class="value" id="profilePoints">0</span></div>
+                        <div class="row"><i class="fas fa-info-circle"></i> <span class="label">Account Type</span> <span class="badge-demo" id="accountTypeBadge">Demo Account</span></div>
+                    </div>
+                </div>
+
+                <!-- ===== SETTINGS ===== -->
+                <div id="page-settings" class="page">
+                    <h2><i class="fas fa-sliders-h"></i> Settings</h2>
+                    <p>Manage your preferences</p>
+                    <div class="settings-card">
+                        <div class="setting-item"><span><i class="fas fa-moon" style="margin-right:12px;"></i> Dark mode</span> <div class="toggle" id="darkToggle" data-active="false"></div></div>
+                        <div class="setting-item"><span><i class="fas fa-bell" style="margin-right:12px;"></i> Email notifications</span> <div class="toggle active" id="notifToggle" data-active="true"></div></div>
+                    </div>
+                </div>
+
+                <!-- ===== ADMIN ===== -->
+                <div id="page-admin" class="page">
+                    <h2><i class="fas fa-users-gear"></i> Admin & Management</h2>
+                    <p>Manage platform settings and view pending deposits.</p>
+                    <div class="admin-card">
+                        <div class="admin-item">
+                            <span><i class="fas fa-user-tie" style="color:#1a3a7a; width:30px;"></i> <strong>Platform Owner</strong></span>
+                            <span class="admin-badge">Verified</span>
+                        </div>
+                        <div class="admin-item">
+                            <span><i class="fas fa-envelope" style="color:#1a3a7a; width:30px;"></i> admin@earnflow.com</span>
+                            <span class="admin-badge">Contact</span>
+                        </div>
+                        <div class="admin-item">
+                            <span><i class="fas fa-phone" style="color:#1a3a7a; width:30px;"></i> <span id="adminPhoneDisplay">+49 1521 6067493</span></span>
+                            <span class="admin-badge">Support</span>
+                        </div>
+                        <div class="admin-item">
+                            <span><i class="fas fa-shield-halved" style="color:#1a3a7a; width:30px;"></i> Manual confirmation</span>
+                            <span class="admin-badge">Active</span>
+                        </div>
+                        <div style="margin-top:20px; padding:16px; background:#f0f7ff; border-radius:16px; color:#1b2f4e;">
+                            <i class="fas fa-info-circle"></i> All deposits are manually confirmed by the admin team. 
+                            Send funds to <strong>IBAN PK53NAYA1234503452089843</strong> via your banking app and submit the transaction details on the <strong>Deposit</strong> page. 
+                            Deposits take <strong>24-36 hours</strong> to confirm. Minimum deposit: <strong>$5 / 1550 PKR</strong>.
+                        </div>
+
+                        <!-- Pending Deposits (Read-only) -->
+                        <h3 style="margin-top: 28px; font-size: 20px; color: #0b1a33;">
+                            <i class="fas fa-clock"></i> Pending Deposits
+                        </h3>
+                        <p style="color: #4c6382; margin-bottom: 12px;">All pending deposit requests are listed below. These are for your reference only – confirmation is done off-platform.</p>
+                        <div id="pendingDepositsContainer">
+                            <p style="color: #68749c; padding: 20px 0; text-align: center;">No pending deposits.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== IBAN POPUP (Add Money) ===== -->
+    <div class="modal-overlay" id="ibanPopup">
+        <div class="modal-box iban-popup">
+            <h3><i class="fas fa-university" style="color:#1a3a7a;"></i> Send Funds</h3>
+            <p style="color:#4c6382; margin-bottom:8px;">Please send your deposit to the IBAN below using your banking app.</p>
+            <div class="iban-box">
+                <span class="address" id="popupIbanDisplay">PK53NAYA1234503452089843</span>
+                <button class="copy-btn" id="popupCopyIbanBtn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <p style="font-size:14px; color:#52668a; margin:12px 0;">
+                <i class="fas fa-info-circle"></i> After sending, go to the <strong>Deposit</strong> tab to submit your transaction details.
+            </p>
+            <div class="modal-actions">
+                <button class="btn-primary" id="ibanPopupClose">OK, Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DEPOSIT SUCCESS MODAL (24-36 hours) ===== -->
+    <div class="modal-overlay" id="depositSuccessModal">
+        <div class="modal-box" style="text-align:center;">
+            <i class="fas fa-clock success-popup-icon"></i>
+            <h3 style="color:#1a3a7a;">✅ Deposit Request Submitted</h3>
+            <p style="color:#4c6382; margin:16px 0;">
+                Your deposit request has been received and is now pending confirmation.
+            </p>
+            <div style="background:#f0f7ff; padding:16px; border-radius:16px; margin:16px 0; border:1px solid #d0e0f0;">
+                <i class="fas fa-hourglass-half" style="color:#1a3a7a; margin-right:10px;"></i>
+                <strong style="color:#0b1a33;">Confirmation takes 24-36 hours</strong>
+                <p style="color:#52668a; font-size:14px; margin-top:6px;">
+                    Once confirmed by the admin team, the credits will appear in your wallet.
+                    You will receive a notification when your deposit is processed.
+                </p>
+            </div>
+            <div class="modal-actions" style="justify-content:center;">
+                <button class="btn-primary" id="depositSuccessOk">OK, Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BONUS MODAL ===== -->
+    <div class="modal-overlay" id="bonusModal">
+        <div class="modal-box" style="text-align:center;">
+            <i class="fas fa-gift bonus-icon"></i>
+            <h3 style="color:#1a3a7a;">🎉 Welcome Bonus!</h3>
+            <div class="bonus-amount">$10.00</div>
+            <p class="bonus-text">Claim your free $10 bonus just for signing up!<br>It will be added to your wallet instantly.</p>
+            <div class="modal-actions" style="justify-content:center;">
+                <button class="btn-primary" id="claimBonusBtn" style="padding: 14px 40px; font-size:18px;">
+                    <i class="fas fa-hand-holding-heart"></i> Claim Bonus
+                </button>
+                <button class="btn-secondary" id="skipBonusBtn">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ============================================================
+            //  STATE & STORAGE – FORCE CORRECT IBAN
+            // ============================================================
+            let users = JSON.parse(localStorage.getItem('earnflow_users')) || {};
+            let currentUser = null;
+            let balance = 0;
+            let btcBalance = 0;
+            let avgBuyPrice = 0;
+            let totalPnl = 0;
+            let todayPnl = 0;
+            let lossRecovered = 0;
+            let lastPnlDate = '';
+            let points = 0;
+            let transactions = [];
+            let selectedDepositCurrency = 'USD';
+            const USD_TO_PKR = 278.5;
+            const MIN_DEPOSIT_USD = 5;
+            const MIN_DEPOSIT_PKR = 1550;
+
+            const CORRECT_IBAN = 'PK53NAYA1234503452089843';
+
+            const defaultSettings = {
+                siteTitle: 'EarnFlow',
+                homeHeading: '👋 Welcome back, {name}',
+                homeSubText: 'Your earnings overview and quick actions.',
+                nayapayAddress: CORRECT_IBAN,
+                adminPhone: '+49 1521 6067493',
+                surveys: [
+                    { title: 'User Experience Feedback', reward: 4.50 },
+                    { title: 'Product Satisfaction Survey', reward: 3.75 },
+                    { title: 'Market Research 2026', reward: 5.20 },
+                    { title: 'Website Usability Test', reward: 3.00 },
+                    { title: 'Customer Service Evaluation', reward: 4.00 }
+                ]
+            };
+
+            // Load settings, but force the IBAN to be correct
+            let siteSettings = JSON.parse(localStorage.getItem('earnflow_site_settings'));
+            if (!siteSettings) {
+                siteSettings = defaultSettings;
+                localStorage.setItem('earnflow_site_settings', JSON.stringify(siteSettings));
+            } else {
+                siteSettings.nayapayAddress = CORRECT_IBAN;
+                localStorage.setItem('earnflow_site_settings', JSON.stringify(siteSettings));
+            }
+
+            let activityLogs = JSON.parse(localStorage.getItem('earnflow_activity_logs')) || [];
+
+            // Demo account
+            if (!users['demo@earn.com']) {
+                users['demo@earn.com'] = {
+                    name: 'Demo User',
+                    email: 'demo@earn.com',
+                    password: '123456',
+                    phone: '+92 300 1234567',
+                    phoneVerified: true,
+                    memberSince: '2026',
+                    balance: 50000.00,
+                    btcBalance: 0.5,
+                    avgBuyPrice: 87234,
+                    totalPnl: 0,
+                    todayPnl: 0,
+                    lossRecovered: 0,
+                    lastPnlDate: new Date().toISOString().slice(0, 10),
+                    points: 0,
+                    bonusClaimed: true,
+                    isDemo: true,
+                    pendingDeposits: [],
+                    transactions: [
+                        { type: 'deposit', amount: 50000, currency: 'USD', date: 'Account Created', note: 'Initial demo balance' }
+                    ]
+                };
+                localStorage.setItem('earnflow_users', JSON.stringify(users));
+            }
+
+            // Trading state
+            let tradingViewInitialized = false;
+            let currentPrice = 87234.56;
+            let tradeSide = 'buy';
+
+            // ============================================================
+            //  DOM REFS
+            // ============================================================
+            function getElements() {
+                return {
+                    loginPage: document.getElementById('loginPage'),
+                    signupPage: document.getElementById('signupPage'),
+                    dashboard: document.getElementById('dashboard'),
+                    loginBtn: document.getElementById('loginBtn'),
+                    signupBtn: document.getElementById('signupBtn'),
+                    goToSignup: document.getElementById('goToSignup'),
+                    goToLogin: document.getElementById('goToLogin'),
+                    logoutBtn: document.getElementById('logoutBtn'),
+                    forgotPasswordLink: document.getElementById('forgotPasswordLink'),
+                    loginError: document.getElementById('loginError'),
+                    signupError: document.getElementById('signupError'),
+                    loginEmail: document.getElementById('loginEmail'),
+                    loginPassword: document.getElementById('loginPassword'),
+                    signupName: document.getElementById('signupName'),
+                    signupEmail: document.getElementById('signupEmail'),
+                    signupPassword: document.getElementById('signupPassword'),
+                    signupPhone: document.getElementById('signupPhone'),
+                    navBtns: document.querySelectorAll('.nav-links button'),
+                    balanceDisplay: document.getElementById('balanceDisplay'),
+                    walletBalance: document.getElementById('walletBalance'),
+                    greetingName: document.getElementById('greetingName'),
+                    profileName: document.getElementById('profileName'),
+                    profileEmail: document.getElementById('profileEmail'),
+                    profilePhone: document.getElementById('profilePhone'),
+                    profilePoints: document.getElementById('profilePoints'),
+                    phoneStatus: document.getElementById('phoneStatus'),
+                    memberSince: document.getElementById('memberSince'),
+                    displayNameSpan: document.getElementById('displayName'),
+                    todayProfitDisplay: document.getElementById('todayProfitDisplay'),
+                    totalPnlDisplayHome: document.getElementById('totalPnlDisplay'),
+                    pointsDisplay: document.getElementById('pointsDisplay'),
+                    transactionList: document.getElementById('transactionList'),
+                    walletTransactionList: document.getElementById('walletTransactionList'),
+                    darkToggle: document.getElementById('darkToggle'),
+                    notifToggle: document.getElementById('notifToggle'),
+                    ibanPopup: document.getElementById('ibanPopup'),
+                    popupCopyIbanBtn: document.getElementById('popupCopyIbanBtn'),
+                    popupIbanDisplay: document.getElementById('popupIbanDisplay'),
+                    ibanPopupClose: document.getElementById('ibanPopupClose'),
+                    depositIbanDisplay: document.getElementById('depositIbanDisplay'),
+                    copyIbanBtn: document.getElementById('copyIbanBtn'),
+                    depositCurrencyToggle: document.getElementById('depositCurrencyToggle'),
+                    depositConfirmAmount: document.getElementById('depositConfirmAmount'),
+                    depositConfirmTxId: document.getElementById('depositConfirmTxId'),
+                    depositConfirmPhone: document.getElementById('depositConfirmPhone'),
+                    depositConfirmSubmit: document.getElementById('depositConfirmSubmit'),
+                    depositSuccessModal: document.getElementById('depositSuccessModal'),
+                    depositSuccessOk: document.getElementById('depositSuccessOk'),
+                    pendingDepositsContainer: document.getElementById('pendingDepositsContainer'),
+                    bonusModal: document.getElementById('bonusModal'),
+                    claimBonusBtn: document.getElementById('claimBonusBtn'),
+                    skipBonusBtn: document.getElementById('skipBonusBtn'),
+                    tradePriceDisplay: document.getElementById('tradePrice'),
+                    tradePriceChange: document.getElementById('tradePriceChange'),
+                    tradeBalanceDisplay: document.getElementById('tradeBalance'),
+                    tradeBtcBalanceDisplay: document.getElementById('tradeBtcBalance'),
+                    tradeAmount: document.getElementById('tradeAmount'),
+                    tradeBtcEquivalent: document.getElementById('tradeBtcEquivalent'),
+                    tradeExecuteBtn: document.getElementById('tradeExecuteBtn'),
+                    tradeHistoryList: document.getElementById('tradeHistoryList'),
+                    tradeTypeToggle: document.getElementById('tradeTypeToggle'),
+                    tradingTotalPnl: document.getElementById('tradingTotalPnl'),
+                    tradingTodayPnl: document.getElementById('tradingTodayPnl'),
+                    tradingLossRecovered: document.getElementById('tradingLossRecovered'),
+                    tradingAvgBuyPrice: document.getElementById('tradingAvgBuyPrice'),
+                    loginSiteTitle: document.getElementById('loginSiteTitle'),
+                    signupSiteTitle: document.getElementById('signupSiteTitle'),
+                    navSiteTitle: document.getElementById('navSiteTitle'),
+                    homeWelcomeHeading: document.getElementById('homeWelcomeHeading'),
+                    homeSubText: document.getElementById('homeSubText'),
+                    surveysContainer: document.getElementById('surveysContainer'),
+                    tradingviewChart: document.getElementById('tradingview_chart'),
+                    quickAddMoney: document.getElementById('quickAddMoney'),
+                    quickWithdraw: document.getElementById('quickWithdraw'),
+                    walletAddMoney: document.getElementById('walletAddMoney'),
+                    walletWithdraw: document.getElementById('walletWithdraw'),
+                    adminPhoneDisplay: document.getElementById('adminPhoneDisplay'),
+                    accountTypeBadge: document.getElementById('accountTypeBadge')
+                };
+            }
+
+            // ============================================================
+            //  HELPERS
+            // ============================================================
+            function saveUsers() {
+                localStorage.setItem('earnflow_users', JSON.stringify(users));
+            }
+
+            function saveSettings() {
+                localStorage.setItem('earnflow_site_settings', JSON.stringify(siteSettings));
+            }
+
+            function saveLogs() {
+                localStorage.setItem('earnflow_activity_logs', JSON.stringify(activityLogs));
+            }
+
+            function formatCurrency(amount, currency) {
+                if (currency === 'PKR') return '₨' + amount.toFixed(2);
+                return '$' + amount.toFixed(2);
+            }
+
+            function formatPrice(price) {
+                return '$' + price.toFixed(2);
+            }
+
+            function isValidPhone(phone) {
+                const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+                return /^\+92\d{10}$/.test(cleaned);
+            }
+
+            function logActivity(action, email) {
+                activityLogs.push({
+                    action: action,
+                    email: email,
+                    timestamp: new Date().toLocaleString()
+                });
+                saveLogs();
+            }
+
+            function isDemoUser() {
+                return currentUser && currentUser.isDemo === true;
+            }
+
+            // ============================================================
+            //  RENDER FUNCTIONS
+            // ============================================================
+            function renderSurveys() {
+                const container = document.getElementById('surveysContainer');
+                if (!container) return;
+                container.innerHTML = '';
+                const surveys = siteSettings.surveys || [];
+                if (surveys.length === 0) {
+                    container.innerHTML = '<p style="color:#68749c;">No surveys available.</p>';
+                    return;
+                }
+                surveys.forEach((survey, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'survey-item';
+                    div.innerHTML = `
+                        <span class="title"><i class="fas fa-file-alt" style="color:#1a3a7a; margin-right:10px;"></i>${survey.title}</span>
+                        <span class="reward">+ $${survey.reward.toFixed(2)}</span>
+                        <button class="btn-survey" data-index="${index}">Start</button>
+                    `;
+                    container.appendChild(div);
+                });
+                container.querySelectorAll('.btn-survey').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.index);
+                        const survey = siteSettings.surveys[idx];
+                        alert(`Survey "${survey.title}" started! Complete it to earn $${survey.reward.toFixed(2)}. (Demo)`);
+                    });
+                });
+            }
+
+            function renderTransactions() {
+                const renderTx = (container, txs) => {
+                    container.innerHTML = '';
+                    if (!txs || txs.length === 0) {
+                        container.innerHTML =
+                            `<div class="history-item"><span class="tag">💡 No transactions</span><span class="date">—</span><span class="value">—</span></div>`;
+                        return;
+                    }
+                    txs.slice().reverse().forEach(tx => {
+                        const div = document.createElement('div');
+                        div.className = 'history-item';
+                        let icon = 'fa-arrow-down';
+                        let cls = 'green';
+                        let label = tx.type.charAt(0).toUpperCase() + tx.type.slice(1);
+                        let valueText = '';
+
+                        if (tx.type === 'trade') {
+                            const side = tx.side || 'BUY';
+                            const isBuy = side === 'BUY';
+                            icon = isBuy ? 'fa-arrow-down' : 'fa-arrow-up';
+                            cls = isBuy ? 'green' : (tx.pnl >= 0 ? 'green' : 'red');
+                            const btcAmount = tx.amount || 0;
+                            label = `${side} ${btcAmount.toFixed(6)} BTC @ ${formatPrice(tx.price)}`;
+                            const pnl = tx.pnl || 0;
+                            const pnlStr = pnl !== 0 ? ` (PnL: ${pnl > 0 ? '+' : ''}$${pnl.toFixed(2)})` : '';
+                            const usdValue = btcAmount * tx.price;
+                            valueText = (isBuy ? '-' : '+') + formatPrice(usdValue) + pnlStr;
+                            if (!isBuy && pnl !== 0) {
+                                cls = pnl >= 0 ? 'green' : 'red';
+                            }
+                        } else {
+                            const isPositive = tx.amount >= 0;
+                            const sign = isPositive ? '+' : '';
+                            cls = isPositive ? 'green' : 'red';
+                            icon = isPositive ? 'fa-arrow-down' : 'fa-arrow-up';
+                            const currencySymbol = tx.currency === 'PKR' ? '₨' : '$';
+                            const note = tx.note ? ` (${tx.note})` : '';
+                            valueText = `${sign}${currencySymbol}${Math.abs(tx.amount).toFixed(2)}${note}`;
+                            label = tx.type.charAt(0).toUpperCase() + tx.type.slice(1);
+                        }
+
+                        div.innerHTML = `
+                            <span class="tag"><i class="fas ${icon}" style="color:${cls === 'green' ? '#1c9e6c' : cls === 'red' ? '#c74a4a' : '#2a6df4'};"></i> ${label}</span>
+                            <span class="date">${tx.date || 'Just now'}</span>
+                            <span class="value ${cls}">${valueText}</span>
+                        `;
+                        container.appendChild(div);
+                    });
+                };
+
+                if (currentUser) {
+                    const txs = currentUser.transactions || [];
+                    const container1 = document.getElementById('transactionList');
+                    const container2 = document.getElementById('walletTransactionList');
+                    if (container1) renderTx(container1, txs);
+                    if (container2) renderTx(container2, txs);
+                }
+            }
+
+            function renderPendingDeposits() {
+                const container = document.getElementById('pendingDepositsContainer');
+                if (!container) return;
+
+                let allPending = [];
+                Object.keys(users).forEach(email => {
+                    const user = users[email];
+                    if (user.pendingDeposits && user.pendingDeposits.length > 0) {
+                        user.pendingDeposits.forEach(dep => {
+                            if (dep.status === 'pending') {
+                                allPending.push({
+                                    ...dep,
+                                    userEmail: email,
+                                    userName: user.name
+                                });
+                            }
+                        });
+                    }
+                });
+
+                if (allPending.length === 0) {
+                    container.innerHTML = '<p style="color: #68749c; padding: 20px 0; text-align: center;">No pending deposits.</p>';
+                    return;
+                }
+
+                let html = `
+                    <table class="deposit-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Amount</th>
+                                <th>Tx ID</th>
+                                <th>Phone</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                allPending.forEach(dep => {
+                    const date = new Date(dep.timestamp).toLocaleString();
+                    const currencySymbol = dep.currency === 'PKR' ? '₨' : '$';
+                    const amountDisplay = `${currencySymbol}${dep.amount.toFixed(2)}`;
+                    html += `
+                        <tr>
+                            <td><strong>${dep.userName}</strong><br><small style="color:#68749c;">${dep.userEmail}</small></td>
+                            <td>${amountDisplay}</td>
+                            <td><code style="background:#f0f4fc; padding:4px 8px; border-radius:8px; font-size:13px;">${dep.txId}</code></td>
+                            <td>${dep.phone}</td>
+                            <td>${date}</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            }
+
+            function updatePnLAndPoints() {
+                if (!currentUser) return;
+                const today = new Date().toISOString().slice(0, 10);
+                if (currentUser.lastPnlDate !== today) {
+                    currentUser.todayPnl = 0;
+                    currentUser.lastPnlDate = today;
+                    saveUsers();
+                }
+                totalPnl = currentUser.totalPnl || 0;
+                todayPnl = currentUser.todayPnl || 0;
+                lossRecovered = currentUser.lossRecovered || 0;
+                avgBuyPrice = currentUser.avgBuyPrice || 0;
+                points = currentUser.points || 0;
+
+                const pnlClass = (val) => val > 0 ? 'positive' : val < 0 ? 'negative' : '';
+                const pnlSign = (val) => val > 0 ? '+' : '';
+                const formatPnl = (val) => `${pnlSign(val)}$${val.toFixed(2)}`;
+
+                const todayEl = document.getElementById('todayProfitDisplay');
+                if (todayEl) {
+                    todayEl.textContent = formatPnl(todayPnl);
+                    todayEl.className = 'amount ' + pnlClass(todayPnl);
+                }
+
+                const totalEl = document.getElementById('totalPnlDisplay');
+                if (totalEl) {
+                    totalEl.textContent = formatPnl(totalPnl);
+                    totalEl.className = 'amount ' + pnlClass(totalPnl);
+                }
+
+                const pointsEl = document.getElementById('pointsDisplay');
+                if (pointsEl) pointsEl.textContent = points;
+
+                const profilePointsEl = document.getElementById('profilePoints');
+                if (profilePointsEl) profilePointsEl.textContent = points;
+
+                const tPnlClass = (val) => val > 0 ? 'positive' : val < 0 ? 'negative' : 'neutral';
+                const tTotal = document.getElementById('tradingTotalPnl');
+                if (tTotal) { tTotal.textContent = formatPrice(totalPnl);
+                    tTotal.className = 'pnl-value ' + tPnlClass(totalPnl); }
+                const tToday = document.getElementById('tradingTodayPnl');
+                if (tToday) { tToday.textContent = formatPrice(todayPnl);
+                    tToday.className = 'pnl-value ' + tPnlClass(todayPnl); }
+                const tLoss = document.getElementById('tradingLossRecovered');
+                if (tLoss) { tLoss.textContent = formatPrice(lossRecovered);
+                    tLoss.className = 'pnl-value ' + (lossRecovered > 0 ? 'positive' : 'neutral'); }
+                const tAvg = document.getElementById('tradingAvgBuyPrice');
+                if (tAvg) { tAvg.textContent = avgBuyPrice > 0 ? formatPrice(avgBuyPrice) : '$0.00';
+                    tAvg.className = 'pnl-value ' + (avgBuyPrice > 0 ? 'positive' : 'neutral'); }
+            }
+
+            function updateTradingUI() {
+                const priceDisplay = document.getElementById('tradePrice');
+                if (priceDisplay) priceDisplay.textContent = formatPrice(currentPrice);
+                const balanceDisplay = document.getElementById('tradeBalance');
+                if (balanceDisplay) balanceDisplay.textContent = formatCurrency(balance, 'USD');
+                const btcDisplay = document.getElementById('tradeBtcBalance');
+                if (btcDisplay) btcDisplay.textContent = btcBalance.toFixed(6);
+
+                const usdAmount = parseFloat(document.getElementById('tradeAmount')?.value) || 0;
+                const btcEquivalent = usdAmount / currentPrice;
+                const btcEl = document.getElementById('tradeBtcEquivalent');
+                if (btcEl) btcEl.textContent = `≈ ${btcEquivalent.toFixed(6)} BTC`;
+
+                const isBuy = tradeSide === 'buy';
+                const btn = document.getElementById('tradeExecuteBtn');
+                if (btn) {
+                    btn.textContent = isBuy ? `Buy $${usdAmount.toFixed(2)} worth of BTC` : `Sell $${usdAmount.toFixed(2)} worth of BTC`;
+                    btn.className = `btn-trade ${isBuy ? 'buy' : 'sell'}`;
+                }
+            }
+
+            function updateUI() {
+                const balStr = formatCurrency(balance, 'USD');
+                const bd = document.getElementById('balanceDisplay');
+                if (bd) bd.textContent = balStr;
+                const wb = document.getElementById('walletBalance');
+                if (wb) wb.textContent = balStr;
+                const gn = document.getElementById('greetingName');
+                if (gn) gn.textContent = currentUser ? currentUser.name : 'User';
+                const pn = document.getElementById('profileName');
+                if (pn) pn.textContent = currentUser ? currentUser.name : 'User';
+                const pe = document.getElementById('profileEmail');
+                if (pe) pe.textContent = currentUser ? currentUser.email : '';
+                const pp = document.getElementById('profilePhone');
+                if (pp) pp.textContent = currentUser ? currentUser.phone : '';
+                const ps = document.getElementById('phoneStatus');
+                if (ps && currentUser) {
+                    if (currentUser.phoneVerified) {
+                        ps.textContent = 'Verified';
+                        ps.className = 'badge-verified';
+                    } else {
+                        ps.textContent = 'Pending (48-72h)';
+                        ps.className = 'badge-pending';
+                    }
+                }
+                const ms = document.getElementById('memberSince');
+                if (ms) ms.textContent = currentUser ? currentUser.memberSince : '2026';
+                const ds = document.getElementById('displayName');
+                if (ds) ds.textContent = currentUser ? currentUser.name : 'User';
+
+                // Update account type badge
+                const acctBadge = document.getElementById('accountTypeBadge');
+                if (acctBadge && currentUser) {
+                    if (currentUser.isDemo) {
+                        acctBadge.textContent = 'Demo Account (Virtual)';
+                        acctBadge.className = 'badge-demo';
+                    } else {
+                        acctBadge.textContent = 'Live Account';
+                        acctBadge.className = 'badge-verified';
+                    }
+                }
+
+                // Show/hide withdraw buttons for demo accounts
+                const withdrawBtns = document.querySelectorAll('.withdraw-btn');
+                if (isDemoUser()) {
+                    withdrawBtns.forEach(btn => {
+                        btn.disabled = true;
+                        btn.classList.add('disabled');
+                        btn.title = 'Withdrawals are disabled for demo accounts';
+                    });
+                } else {
+                    withdrawBtns.forEach(btn => {
+                        btn.disabled = false;
+                        btn.classList.remove('disabled');
+                        btn.title = '';
+                    });
+                }
+
+                renderTransactions();
+                renderSurveys();
+                updateTradingUI();
+                updatePnLAndPoints();
+                applySiteSettings();
+                renderPendingDeposits();
+
+                // Update IBAN displays
+                const iban = siteSettings.nayapayAddress;
+                const popupIban = document.getElementById('popupIbanDisplay');
+                if (popupIban) popupIban.textContent = iban;
+                const depositIban = document.getElementById('depositIbanDisplay');
+                if (depositIban) depositIban.textContent = iban;
+            }
+
+            function applySiteSettings() {
+                const s = siteSettings;
+                const lst = document.getElementById('loginSiteTitle');
+                if (lst) lst.textContent = s.siteTitle;
+                const sst = document.getElementById('signupSiteTitle');
+                if (sst) sst.textContent = s.siteTitle;
+                const nst = document.getElementById('navSiteTitle');
+                if (nst) nst.textContent = s.siteTitle;
+                const name = currentUser ? currentUser.name : 'User';
+                const hwh = document.getElementById('homeWelcomeHeading');
+                if (hwh) hwh.innerHTML = s.homeHeading.replace(/\{name\}/g, name);
+                const hst = document.getElementById('homeSubText');
+                if (hst) hst.textContent = s.homeSubText;
+                const apd = document.getElementById('adminPhoneDisplay');
+                if (apd) apd.textContent = s.adminPhone;
+            }
+
+            function loadUser(email) {
+                const user = users[email];
+                if (!user) return false;
+                currentUser = user;
+                balance = user.balance || 0;
+                btcBalance = user.btcBalance || 0;
+                avgBuyPrice = user.avgBuyPrice || 0;
+                totalPnl = user.totalPnl || 0;
+                todayPnl = user.todayPnl || 0;
+                lossRecovered = user.lossRecovered || 0;
+                points = user.points || 0;
+                transactions = user.transactions || [];
+                updateUI();
+                renderTradeHistory();
+                return true;
+            }
+
+            function showDashboard() {
+                const loginPage = document.getElementById('loginPage');
+                const signupPage = document.getElementById('signupPage');
+                const dashboard = document.getElementById('dashboard');
+                if (loginPage) loginPage.classList.add('hidden');
+                if (signupPage) signupPage.classList.add('hidden');
+                if (dashboard) dashboard.style.display = 'flex';
+                updateUI();
+                renderTradeHistory();
+                renderPendingDeposits();
+            }
+
+            function showLogin() {
+                const loginPage = document.getElementById('loginPage');
+                const signupPage = document.getElementById('signupPage');
+                const dashboard = document.getElementById('dashboard');
+                if (loginPage) loginPage.classList.remove('hidden');
+                if (signupPage) signupPage.classList.add('hidden');
+                if (dashboard) dashboard.style.display = 'none';
+                currentUser = null;
+                const le = document.getElementById('loginError');
+                if (le) le.style.display = 'none';
+                const se = document.getElementById('signupError');
+                if (se) se.style.display = 'none';
+            }
+
+            function showSignup() {
+                const loginPage = document.getElementById('loginPage');
+                const signupPage = document.getElementById('signupPage');
+                const dashboard = document.getElementById('dashboard');
+                if (signupPage) signupPage.classList.remove('hidden');
+                if (loginPage) loginPage.classList.add('hidden');
+                if (dashboard) dashboard.style.display = 'none';
+                const sn = document.getElementById('signupName');
+                if (sn) sn.value = '';
+                const se = document.getElementById('signupEmail');
+                if (se) se.value = '';
+                const sp = document.getElementById('signupPassword');
+                if (sp) sp.value = '';
+                const sph = document.getElementById('signupPhone');
+                if (sph) sph.value = '';
+                const le = document.getElementById('loginError');
+                if (le) le.style.display = 'none';
+                const se2 = document.getElementById('signupError');
+                if (se2) se2.style.display = 'none';
+                applySiteSettings();
+            }
+
+            function navigateTo(pageId) {
+                const pages = {
+                    home: document.getElementById('page-home'),
+                    wallet: document.getElementById('page-wallet'),
+                    deposit: document.getElementById('page-deposit'),
+                    surveys: document.getElementById('page-surveys'),
+                    trading: document.getElementById('page-trading'),
+                    profile: document.getElementById('page-profile'),
+                    settings: document.getElementById('page-settings'),
+                    admin: document.getElementById('page-admin')
+                };
+                Object.keys(pages).forEach(key => {
+                    if (pages[key]) pages[key].classList.remove('active');
+                });
+                if (pages[pageId]) pages[pageId].classList.add('active');
+
+                const navBtns = document.querySelectorAll('.nav-links button');
+                navBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.page === pageId) btn.classList.add('active');
+                });
+
+                if (pageId === 'trading') {
+                    initTradingView();
+                    renderTradeHistory();
+                    const priceDisplay = document.getElementById('tradePrice');
+                    if (priceDisplay) priceDisplay.textContent = formatPrice(currentPrice);
+                    const amount = parseFloat(document.getElementById('tradeAmount')?.value) || 0;
+                    const btcEl = document.getElementById('tradeBtcEquivalent');
+                    if (btcEl) btcEl.textContent = `≈ ${(amount / currentPrice).toFixed(6)} BTC`;
+                    updateTradingUI();
+                    updatePnLAndPoints();
+                }
+
+                if (pageId === 'admin') {
+                    renderPendingDeposits();
+                }
+            }
+
+            function renderTradeHistory() {
+                if (!currentUser) return;
+                const trades = (currentUser.transactions || []).filter(tx => tx.type === 'trade');
+                const container = document.getElementById('tradeHistoryList');
+                if (!container) return;
+                container.innerHTML = '';
+                if (trades.length === 0) {
+                    container.innerHTML = '<div class="no-trades">No trades yet. Start trading!</div>';
+                    return;
+                }
+                trades.slice().reverse().forEach(tx => {
+                    const div = document.createElement('div');
+                    div.className = 'trade-item';
+                    const isBuy = tx.side === 'BUY';
+                    const sideClass = isBuy ? 'side-buy' : 'side-sell';
+                    const sideText = isBuy ? 'BUY' : 'SELL';
+                    const value = tx.amount * tx.price;
+                    const pnl = tx.pnl || 0;
+                    const pnlStr = pnl !== 0 ? ` (${pnl > 0 ? '+' : ''}$${pnl.toFixed(2)})` : '';
+                    const valueClass = isBuy ? 'negative' : (pnl >= 0 ? 'positive' : 'negative');
+                    const sign = isBuy ? '-' : '+';
+                    div.innerHTML = `
+                        <span class="${sideClass}">${sideText}</span>
+                        <span>${tx.amount.toFixed(6)} BTC</span>
+                        <span class="price">@ ${formatPrice(tx.price)}</span>
+                        <span class="trade-value ${valueClass}">${sign}${formatPrice(value)}${pnlStr}</span>
+                        <span class="time">${tx.date || ''}</span>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            function executeTrade() {
+                if (!currentUser) {
+                    alert('Please log in first.');
+                    return;
+                }
+
+                const usdAmount = parseFloat(document.getElementById('tradeAmount')?.value);
+                if (!usdAmount || usdAmount <= 0) {
+                    alert('Please enter a valid USD amount.');
+                    return;
+                }
+
+                const isBuy = tradeSide === 'buy';
+                const btcAmount = usdAmount / currentPrice;
+
+                if (isBuy) {
+                    const cost = usdAmount;
+                    if (cost > balance) {
+                        alert(`❌ Insufficient balance. You need $${cost.toFixed(2)} but have ${formatCurrency(balance, 'USD')}.`);
+                        return;
+                    }
+                    const newTotalBtc = btcBalance + btcAmount;
+                    avgBuyPrice = (btcBalance * avgBuyPrice + btcAmount * currentPrice) / newTotalBtc;
+                    btcBalance = newTotalBtc;
+                    balance -= cost;
+
+                    const tradeTx = {
+                        type: 'trade',
+                        side: 'BUY',
+                        amount: btcAmount,
+                        price: currentPrice,
+                        currency: 'USD',
+                        date: new Date().toLocaleString(),
+                        pnl: 0
+                    };
+                    currentUser.transactions.push(tradeTx);
+                    currentUser.points = (currentUser.points || 0) + 1;
+                    currentUser.balance = balance;
+                    currentUser.btcBalance = btcBalance;
+                    currentUser.avgBuyPrice = avgBuyPrice;
+                    users[currentUser.email] = currentUser;
+                    saveUsers();
+                    updateUI();
+                    renderTradeHistory();
+                    alert(`✅ Bought ${btcAmount.toFixed(6)} BTC @ ${formatPrice(currentPrice)} for $${cost.toFixed(2)}. Earned 1 reward point!`);
+                } else {
+                    if (btcAmount > btcBalance) {
+                        alert(`❌ Insufficient BTC. You need ${btcAmount.toFixed(6)} BTC but have ${btcBalance.toFixed(6)} BTC.`);
+                        return;
+                    }
+
+                    const realizedPnl = (currentPrice - avgBuyPrice) * btcAmount;
+                    const totalReceived = usdAmount;
+
+                    btcBalance -= btcAmount;
+                    balance += totalReceived;
+
+                    const newTotalPnl = (currentUser.totalPnl || 0) + realizedPnl;
+                    currentUser.totalPnl = newTotalPnl;
+
+                    const today = new Date().toISOString().slice(0, 10);
+                    if (currentUser.lastPnlDate !== today) {
+                        currentUser.todayPnl = 0;
+                        currentUser.lastPnlDate = today;
+                    }
+                    currentUser.todayPnl = (currentUser.todayPnl || 0) + realizedPnl;
+
+                    if (realizedPnl > 0) {
+                        currentUser.lossRecovered = (currentUser.lossRecovered || 0) + realizedPnl;
+                    }
+
+                    if (btcBalance === 0) {
+                        avgBuyPrice = 0;
+                    }
+
+                    const tradeTx = {
+                        type: 'trade',
+                        side: 'SELL',
+                        amount: btcAmount,
+                        price: currentPrice,
+                        currency: 'USD',
+                        date: new Date().toLocaleString(),
+                        pnl: realizedPnl
+                    };
+                    currentUser.transactions.push(tradeTx);
+                    currentUser.points = (currentUser.points || 0) + 1;
+                    currentUser.balance = balance;
+                    currentUser.btcBalance = btcBalance;
+                    currentUser.avgBuyPrice = avgBuyPrice;
+                    users[currentUser.email] = currentUser;
+                    saveUsers();
+                    updateUI();
+                    renderTradeHistory();
+
+                    const pnlMsg = realizedPnl >= 0 ? `profit of ${formatPrice(realizedPnl)}` : `loss of ${formatPrice(Math.abs(realizedPnl))}`;
+                    alert(`✅ Sold ${btcAmount.toFixed(6)} BTC @ ${formatPrice(currentPrice)} for $${totalReceived.toFixed(2)} (${pnlMsg}). Earned 1 reward point!`);
+                }
+            }
+
+            function initTradingView() {
+                const container = document.getElementById('tradingview_chart');
+                if (!container || tradingViewInitialized) return;
+
+                if (window.TradingView && typeof window.TradingView.widget === 'function') {
+                    createTradingViewWidget(container);
+                    tradingViewInitialized = true;
+                    return;
+                }
+
+                const script = document.createElement('script');
+                script.src = 'https://s3.tradingview.com/tv.js';
+                script.async = true;
+                script.onload = function() {
+                    createTradingViewWidget(container);
+                    tradingViewInitialized = true;
+                };
+                script.onerror = function() {
+                    console.error('Failed to load TradingView script.');
+                    container.innerHTML =
+                        '<p style="color:#c74a4a; padding:40px; text-align:center;">Failed to load chart. Please check your internet connection.</p>';
+                };
+                document.head.appendChild(script);
+            }
+
+            function createTradingViewWidget(container) {
+                try {
+                    container.innerHTML = '';
+                    new TradingView.widget({
+                        "width": "100%",
+                        "height": 500,
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "60",
+                        "timezone": "Etc/UTC",
+                        "theme": "light",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "withdateranges": true,
+                        "hide_side_toolbar": false,
+                        "allow_symbol_change": true,
+                        "container_id": "tradingview_chart"
+                    });
+                } catch (e) {
+                    console.error('TradingView widget error:', e);
+                    container.innerHTML =
+                        '<p style="color:#c74a4a; padding:40px; text-align:center;">Error loading chart. Please refresh.</p>';
+                }
+            }
+
+            function startPriceSimulation() {
+                currentPrice = 87234 + (Math.random() - 0.5) * 200;
+                setInterval(() => {
+                    const change = (Math.random() - 0.5) * 180;
+                    currentPrice = Math.max(10000, currentPrice + change);
+                    const tradingPage = document.getElementById('page-trading');
+                    if (tradingPage && tradingPage.classList.contains('active')) {
+                        const priceDisplay = document.getElementById('tradePrice');
+                        if (priceDisplay) priceDisplay.textContent = formatPrice(currentPrice);
+                        const changePercent = ((change) / (currentPrice - change)) * 100;
+                        const isUp = change >= 0;
+                        const changeEl = document.getElementById('tradePriceChange');
+                        if (changeEl) {
+                            changeEl.textContent = `${isUp ? '▲' : '▼'} ${Math.abs(changePercent).toFixed(2)}%`;
+                            changeEl.className = `price-change ${isUp ? 'up' : 'down'}`;
+                        }
+                        const amount = parseFloat(document.getElementById('tradeAmount')?.value) || 0;
+                        const btcEl = document.getElementById('tradeBtcEquivalent');
+                        if (btcEl) btcEl.textContent = `≈ ${(amount / currentPrice).toFixed(6)} BTC`;
+                        const btn = document.getElementById('tradeExecuteBtn');
+                        if (btn) {
+                            const isBuy = tradeSide === 'buy';
+                            btn.textContent = isBuy ? `Buy $${amount.toFixed(2)} worth of BTC` : `Sell $${amount.toFixed(2)} worth of BTC`;
+                            btn.className = `btn-trade ${isBuy ? 'buy' : 'sell'}`;
+                        }
+                    }
+                }, 3000);
+            }
+
+            // ============================================================
+            //  BONUS SYSTEM
+            // ============================================================
+            function showBonusModal() {
+                const modal = document.getElementById('bonusModal');
+                if (modal) modal.classList.add('active');
+            }
+
+            function hideBonusModal() {
+                const modal = document.getElementById('bonusModal');
+                if (modal) modal.classList.remove('active');
+            }
+
+            function addTransaction(type, amount, currency, dateStr, note) {
+                if (!currentUser) return;
+                if (!currentUser.transactions) currentUser.transactions = [];
+                currentUser.transactions.push({
+                    type: type,
+                    amount: amount,
+                    currency: currency || 'USD',
+                    date: dateStr || new Date().toLocaleString(),
+                    note: note || ''
+                });
+                currentUser.balance = (currentUser.balance || 0) + amount;
+                balance = currentUser.balance;
+                users[currentUser.email] = currentUser;
+                saveUsers();
+                updateUI();
+            }
+
+            // ============================================================
+            //  IBAN POPUP (Add Money)
+            // ============================================================
+            function openIbanPopup() {
+                const modal = document.getElementById('ibanPopup');
+                if (modal) modal.classList.add('active');
+            }
+
+            function closeIbanPopup() {
+                const modal = document.getElementById('ibanPopup');
+                if (modal) modal.classList.remove('active');
+            }
+
+            // ============================================================
+            //  AUTH EVENT HANDLERS – IMPROVED EMAIL ALREADY REGISTERED
+            // ============================================================
+            function showSignupError(message, withLoginBtn = false, email = '') {
+                const errorEl = document.getElementById('signupError');
+                if (errorEl) {
+                    let html = message;
+                    if (withLoginBtn) {
+                        html += `<br><button class="error-btn" id="signupErrorLoginBtn">Go to Login</button>`;
+                    }
+                    errorEl.innerHTML = html;
+                    errorEl.style.display = 'block';
+                    if (withLoginBtn) {
+                        const btn = document.getElementById('signupErrorLoginBtn');
+                        if (btn) {
+                            btn.addEventListener('click', function() {
+                                showLogin();
+                                const le = document.getElementById('loginEmail');
+                                if (le) le.value = email;
+                            });
+                        }
+                    }
+                    setTimeout(() => { errorEl.style.display = 'none'; }, 8000);
+                }
+            }
+
+            function showLoginError(message) {
+                const errorEl = document.getElementById('loginError');
+                if (errorEl) {
+                    errorEl.innerHTML = message;
+                    errorEl.style.display = 'block';
+                    setTimeout(() => { errorEl.style.display = 'none'; }, 6000);
+                }
+            }
+
+            // ============================================================
+            //  SETUP EVENT LISTENERS
+            // ============================================================
+            function setupEventListeners() {
+                // Login Button
+                const loginBtn = document.getElementById('loginBtn');
+                if (loginBtn) {
+                    loginBtn.addEventListener('click', function(e) {
+                        const email = document.getElementById('loginEmail')?.value.trim() || '';
+                        const pass = document.getElementById('loginPassword')?.value.trim() || '';
+
+                        if (!email || !pass) {
+                            showLoginError('⚠️ Please enter both email and password.');
+                            return;
+                        }
+
+                        const user = users[email];
+                        if (!user) {
+                            showLoginError('❌ Account not found. Please <a id="loginErrorSignupLink">Sign up</a> instead.');
+                            const link = document.getElementById('loginErrorSignupLink');
+                            if (link) {
+                                link.addEventListener('click', function() { showSignup(); });
+                            }
+                            return;
+                        }
+
+                        if (user.password !== pass) {
+                            showLoginError('❌ Incorrect password. Please try again.');
+                            return;
+                        }
+
+                        if (loadUser(email)) {
+                            logActivity('login', email);
+                            showDashboard();
+                            navigateTo('home');
+                        } else {
+                            showLoginError('⚠️ Error loading user data. Please try again.');
+                        }
+                    });
+                }
+
+                // Signup Button
+                const signupBtn = document.getElementById('signupBtn');
+                if (signupBtn) {
+                    signupBtn.addEventListener('click', function() {
+                        const name = document.getElementById('signupName')?.value.trim() || '';
+                        const email = document.getElementById('signupEmail')?.value.trim() || '';
+                        const pass = document.getElementById('signupPassword')?.value.trim() || '';
+                        const phone = document.getElementById('signupPhone')?.value.trim() || '';
+
+                        if (!name || !email || !pass || !phone) {
+                            showSignupError('⚠️ Please fill all fields.', false);
+                            return;
+                        }
+                        if (!email.endsWith('@gmail.com')) {
+                            showSignupError('❌ Email must be a Gmail address (ends with @gmail.com).', false);
+                            return;
+                        }
+                        const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+                        if (!passRegex.test(pass)) {
+                            showSignupError('❌ Password must be at least 8 characters, contain uppercase, lowercase, and a symbol.', false);
+                            return;
+                        }
+                        if (!isValidPhone(phone)) {
+                            showSignupError('❌ Phone must be in format +92 000 0000000 (exactly +92 followed by 10 digits).', false);
+                            return;
+                        }
+                        if (users[email]) {
+                            // Improved error with login button
+                            showSignupError('❌ Email already registered. Please use a different email or log in.', true, email);
+                            return;
+                        }
+
+                        const now = new Date();
+                        const memberSince = now.getFullYear().toString();
+                        users[email] = {
+                            name: name,
+                            email: email,
+                            password: pass,
+                            phone: phone,
+                            phoneVerified: false,
+                            memberSince: memberSince,
+                            balance: 0,
+                            btcBalance: 0,
+                            avgBuyPrice: 0,
+                            totalPnl: 0,
+                            todayPnl: 0,
+                            lossRecovered: 0,
+                            lastPnlDate: now.toISOString().slice(0, 10),
+                            points: 0,
+                            bonusClaimed: false,
+                            bonusSeen: false,
+                            isDemo: false,
+                            pendingDeposits: [],
+                            transactions: []
+                        };
+                        saveUsers();
+                        logActivity('signup', email);
+
+                        if (loadUser(email)) {
+                            showDashboard();
+                            navigateTo('home');
+                            alert('✅ Account created! Your email and phone will be verified within 48-72 hours. You can start using your account immediately.');
+                            if (!currentUser.bonusClaimed && !currentUser.bonusSeen) {
+                                showBonusModal();
+                            }
+                        } else {
+                            showSignupError('⚠️ Error creating account. Please try again.', false);
+                        }
+                    });
+                }
+
+                // Navigation Links
+                const goToSignup = document.getElementById('goToSignup');
+                if (goToSignup) {
+                    goToSignup.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showSignup();
+                    });
+                }
+
+                const goToLogin = document.getElementById('goToLogin');
+                if (goToLogin) {
+                    goToLogin.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showLogin();
+                    });
+                }
+
+                // Forgot Password
+                const forgotLink = document.getElementById('forgotPasswordLink');
+                if (forgotLink) {
+                    forgotLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('🔐 Forgot password? Contact support at admin@earnflow.com to reset your password.');
+                    });
+                }
+
+                // Logout
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function() {
+                        if (confirm('Log out?')) {
+                            showLogin();
+                            const le = document.getElementById('loginEmail');
+                            if (le) le.value = 'demo@earn.com';
+                            const lp = document.getElementById('loginPassword');
+                            if (lp) lp.value = '123456';
+                        }
+                    });
+                }
+
+                // Nav buttons
+                const navBtns = document.querySelectorAll('.nav-links button');
+                navBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const page = this.dataset.page;
+                        if (page) navigateTo(page);
+                    });
+                });
+
+                // Bonus
+                const claimBtn = document.getElementById('claimBonusBtn');
+                if (claimBtn) {
+                    claimBtn.addEventListener('click', function() {
+                        if (!currentUser) return;
+                        if (currentUser.bonusClaimed) {
+                            alert('You have already claimed your bonus.');
+                            hideBonusModal();
+                            return;
+                        }
+                        addTransaction('bonus', 10, 'USD', new Date().toLocaleString());
+                        currentUser.bonusClaimed = true;
+                        users[currentUser.email] = currentUser;
+                        saveUsers();
+                        alert('🎉 $10 bonus has been added to your account!');
+                        hideBonusModal();
+                        updateUI();
+                    });
+                }
+
+                const skipBtn = document.getElementById('skipBonusBtn');
+                if (skipBtn) {
+                    skipBtn.addEventListener('click', function() {
+                        hideBonusModal();
+                        if (currentUser) {
+                            currentUser.bonusSeen = true;
+                            users[currentUser.email] = currentUser;
+                            saveUsers();
+                        }
+                    });
+                }
+
+                // ---- Add Money buttons ----
+                const quickAdd = document.getElementById('quickAddMoney');
+                if (quickAdd) quickAdd.addEventListener('click', openIbanPopup);
+                const walletAdd = document.getElementById('walletAddMoney');
+                if (walletAdd) walletAdd.addEventListener('click', openIbanPopup);
+
+                // ---- IBAN Popup Copy ----
+                const popupCopyBtn = document.getElementById('popupCopyIbanBtn');
+                if (popupCopyBtn) {
+                    popupCopyBtn.addEventListener('click', function() {
+                        const text = siteSettings.nayapayAddress;
+                        copyToClipboard(text, 'IBAN');
+                    });
+                }
+
+                // ---- IBAN Popup Close ----
+                const popupClose = document.getElementById('ibanPopupClose');
+                if (popupClose) {
+                    popupClose.addEventListener('click', closeIbanPopup);
+                }
+                const ibanPopup = document.getElementById('ibanPopup');
+                if (ibanPopup) {
+                    ibanPopup.addEventListener('click', function(e) {
+                        if (e.target === this) closeIbanPopup();
+                    });
+                }
+
+                // ---- Copy IBAN on Deposit page ----
+                const copyIbanBtn = document.getElementById('copyIbanBtn');
+                if (copyIbanBtn) {
+                    copyIbanBtn.addEventListener('click', function() {
+                        const text = siteSettings.nayapayAddress;
+                        copyToClipboard(text, 'IBAN');
+                    });
+                }
+
+                function copyToClipboard(text, label) {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            alert(`✅ ${label} copied: ${text}`);
+                        }).catch(() => fallbackCopy(text, label));
+                    } else {
+                        fallbackCopy(text, label);
+                    }
+                }
+
+                function fallbackCopy(text, label) {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                        alert(`✅ ${label} copied: ${text}`);
+                    } catch (err) {
+                        alert(`❌ Could not copy. Please copy manually: ${text}`);
+                    }
+                    document.body.removeChild(textarea);
+                }
+
+                // ---- Deposit Confirmation Form ----
+                const currencyToggle = document.getElementById('depositCurrencyToggle');
+                if (currencyToggle) {
+                    currencyToggle.addEventListener('click', function(e) {
+                        const btn = e.target.closest('button');
+                        if (!btn) return;
+                        this.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        selectedDepositCurrency = btn.dataset.currency;
+                    });
+                }
+
+                const depositSubmit = document.getElementById('depositConfirmSubmit');
+                if (depositSubmit) {
+                    depositSubmit.addEventListener('click', function() {
+                        if (!currentUser) {
+                            alert('Please log in first.');
+                            return;
+                        }
+
+                        const amount = parseFloat(document.getElementById('depositConfirmAmount')?.value);
+                        const txId = document.getElementById('depositConfirmTxId')?.value.trim() || '';
+                        const phone = document.getElementById('depositConfirmPhone')?.value.trim() || '';
+
+                        if (!amount || amount <= 0) {
+                            alert('Please enter a valid amount.');
+                            return;
+                        }
+
+                        if (selectedDepositCurrency === 'USD' && amount < MIN_DEPOSIT_USD) {
+                            alert(`❌ Minimum deposit is $${MIN_DEPOSIT_USD}. Please enter a higher amount.`);
+                            return;
+                        }
+                        if (selectedDepositCurrency === 'PKR' && amount < MIN_DEPOSIT_PKR) {
+                            alert(`❌ Minimum deposit is ₨${MIN_DEPOSIT_PKR}. Please enter a higher amount.`);
+                            return;
+                        }
+
+                        if (!txId) {
+                            alert('Please enter a transaction ID/reference.');
+                            return;
+                        }
+                        if (!phone) {
+                            alert('Please enter your phone number.');
+                            return;
+                        }
+
+                        if (!currentUser.pendingDeposits) currentUser.pendingDeposits = [];
+
+                        const pendingDeposit = {
+                            amount: amount,
+                            currency: selectedDepositCurrency,
+                            txId: txId,
+                            phone: phone,
+                            timestamp: new Date().toISOString(),
+                            status: 'pending'
+                        };
+
+                        currentUser.pendingDeposits.push(pendingDeposit);
+                        users[currentUser.email] = currentUser;
+                        saveUsers();
+
+                        document.getElementById('depositConfirmAmount').value = '';
+                        document.getElementById('depositConfirmTxId').value = '';
+                        document.getElementById('depositConfirmPhone').value = '';
+
+                        const successModal = document.getElementById('depositSuccessModal');
+                        if (successModal) successModal.classList.add('active');
+
+                        updateUI();
+                    });
+                }
+
+                // Deposit Success OK button
+                const depositSuccessOk = document.getElementById('depositSuccessOk');
+                if (depositSuccessOk) {
+                    depositSuccessOk.addEventListener('click', function() {
+                        const modal = document.getElementById('depositSuccessModal');
+                        if (modal) modal.classList.remove('active');
+                    });
+                }
+
+                const depositSuccessModalEl = document.getElementById('depositSuccessModal');
+                if (depositSuccessModalEl) {
+                    depositSuccessModalEl.addEventListener('click', function(e) {
+                        if (e.target === this) this.classList.remove('active');
+                    });
+                }
+
+                // ---- Withdraw (disabled for demo) ----
+                const quickWithdraw = document.getElementById('quickWithdraw');
+                if (quickWithdraw) {
+                    quickWithdraw.addEventListener('click', function() {
+                        if (isDemoUser()) {
+                            alert('❌ Withdrawals are disabled for demo accounts. This is virtual money for practice only.');
+                            return;
+                        }
+                        if (!currentUser) return;
+                        const amount = prompt('Enter amount to withdraw (USD) - Minimum $25:', '25');
+                        if (amount === null) return;
+                        const val = parseFloat(amount);
+                        if (isNaN(val) || val <= 0) { alert('Enter a valid positive number.'); return; }
+                        if (val < 25) {
+                            alert('❌ Minimum withdrawal amount is $25.');
+                            return;
+                        }
+                        if (val > balance) { alert('❌ Insufficient balance.'); return; }
+
+                        const phone = prompt('Enter your phone number to confirm withdrawal:');
+                        if (phone === null) return;
+                        if (!phone.trim()) { alert('Phone number is required for withdrawal.'); return; }
+                        if (confirm(`Withdraw $${val.toFixed(2)} to phone ${phone}?`)) {
+                            addTransaction('withdraw', -val, 'USD', new Date().toLocaleString());
+                            alert(`✅ Withdrew $${val.toFixed(2)}. Remaining: $${balance.toFixed(2)}`);
+                        }
+                    });
+                }
+
+                const walletWithdraw = document.getElementById('walletWithdraw');
+                if (walletWithdraw) {
+                    walletWithdraw.addEventListener('click', function() {
+                        if (isDemoUser()) {
+                            alert('❌ Withdrawals are disabled for demo accounts. This is virtual money for practice only.');
+                            return;
+                        }
+                        if (!currentUser) return;
+                        const amount = prompt('Enter amount to withdraw (USD) - Minimum $25:', '25');
+                        if (amount === null) return;
+                        const val = parseFloat(amount);
+                        if (isNaN(val) || val <= 0) { alert('Enter a valid positive number.'); return; }
+                        if (val < 25) {
+                            alert('❌ Minimum withdrawal amount is $25.');
+                            return;
+                        }
+                        if (val > balance) { alert('❌ Insufficient balance.'); return; }
+
+                        const phone = prompt('Enter your phone number to confirm withdrawal:');
+                        if (phone === null) return;
+                        if (!phone.trim()) { alert('Phone number is required for withdrawal.'); return; }
+                        if (confirm(`Withdraw $${val.toFixed(2)} to phone ${phone}?`)) {
+                            addTransaction('withdraw', -val, 'USD', new Date().toLocaleString());
+                            alert(`✅ Withdrew $${val.toFixed(2)}. Remaining: $${balance.toFixed(2)}`);
+                        }
+                    });
+                }
+
+                // ---- Trading Events ----
+                const tradeTypeToggle = document.getElementById('tradeTypeToggle');
+                if (tradeTypeToggle) {
+                    tradeTypeToggle.addEventListener('click', function(e) {
+                        const btn = e.target.closest('button');
+                        if (!btn) return;
+                        const side = btn.dataset.side;
+                        tradeSide = side;
+                        this.querySelectorAll('button').forEach(b => { b.className = ''; });
+                        btn.className = side === 'buy' ? 'active-buy' : 'active-sell';
+                        updateTradingUI();
+                    });
+                }
+
+                const tradeAmountInput = document.getElementById('tradeAmount');
+                if (tradeAmountInput) {
+                    tradeAmountInput.addEventListener('input', function() {
+                        const amount = parseFloat(this.value) || 0;
+                        const btcEl = document.getElementById('tradeBtcEquivalent');
+                        if (btcEl) btcEl.textContent = `≈ ${(amount / currentPrice).toFixed(6)} BTC`;
+                        const btn = document.getElementById('tradeExecuteBtn');
+                        if (btn) {
+                            const isBuy = tradeSide === 'buy';
+                            btn.textContent = isBuy ? `Buy $${amount.toFixed(2)} worth of BTC` : `Sell $${amount.toFixed(2)} worth of BTC`;
+                            btn.className = `btn-trade ${isBuy ? 'buy' : 'sell'}`;
+                        }
+                    });
+                    tradeAmountInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') executeTrade();
+                    });
+                }
+
+                const tradeExecuteBtn = document.getElementById('tradeExecuteBtn');
+                if (tradeExecuteBtn) {
+                    tradeExecuteBtn.addEventListener('click', executeTrade);
+                }
+
+                // Settings toggles
+                const darkToggle = document.getElementById('darkToggle');
+                if (darkToggle) setupToggle(darkToggle, 'darkmode');
+                const notifToggle = document.getElementById('notifToggle');
+                if (notifToggle) setupToggle(notifToggle, 'emailnotif');
+
+                function setupToggle(el, storageKey) {
+                    const saved = localStorage.getItem(storageKey);
+                    if (saved === 'true') el.classList.add('active');
+                    else if (saved === 'false') el.classList.remove('active');
+                    else {
+                        if (el.dataset.active === 'true') el.classList.add('active');
+                        else el.classList.remove('active');
+                    }
+                    el.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        localStorage.setItem(storageKey, this.classList.contains('active'));
+                    });
+                }
+
+                console.log('All event listeners attached successfully.');
+            }
+
+            // ============================================================
+            //  INIT
+            // ============================================================
+            applySiteSettings();
+            showLogin();
+            navigateTo('home');
+            startPriceSimulation();
+            setupEventListeners();
+
+            console.log('🚀 EarnFlow Trading Platform initialized with USD-based trading.');
+            console.log('💰 Demo account starts with $50,000 virtual balance.');
+            console.log('📊 BTC/USDT price simulation running.');
+            console.log('📱 Email and phone verification takes 48-72 hours.');
+            console.log('💳 Withdrawals are disabled for demo accounts.');
+            console.log('👤 Demo account: demo@earn.com / 123456');
+            console.log('🏦 IBAN: PK53NAYA1234503452089843');
+
+        })();
+    </script>
+
+</body>
+</html>
